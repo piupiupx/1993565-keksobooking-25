@@ -98,4 +98,4 @@ const createAppart = () => {
 };
 // eslint-disable-next-line no-unused-vars
 const similarAppart = Array.from({ length: 10 }, createAppart); // создает 10 объектов с рандомными значениями
-console.log(similarAppart);
+//console.log(similarAppart);
