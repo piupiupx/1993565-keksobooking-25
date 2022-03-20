@@ -1,3 +1,5 @@
+export { getRandom, getDot, getRandLengthArray, getRandomArrayElement };
+
 function getRandom(min, max) {
   if (min >= 0 && max >= 0) {
     if (min > max) {
