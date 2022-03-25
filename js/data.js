@@ -56,6 +56,4 @@ const createAppart = () => {
 };
 
 // eslint-disable-next-line no-unused-vars
-const similarAppart = Array.from({ length: 10 }, createAppart); // создает 10 объектов с рандомными значениями
-//console.log(similarAppart);
-export { photo, checkinout, feat, typeArr, pict, createAppart };
+const getSimilarApparts = () => Array.from({ length: 10 }, getSimilarApparts); // создает 10 объектов с рандомными значениями
