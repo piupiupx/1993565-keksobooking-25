@@ -22,6 +22,7 @@ const feat = [
 ];
 const typeArr = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const pict = 'img/avatars/user{{xx}}.png';
+// eslint-disable-next-line no-unused-vars
 const createAppart = () => {
   const location = {
     lat: getDot(35.65, 35.7),
