@@ -1,4 +1,3 @@
-export { getRandom, getDot, getRandLengthArray, getRandomArrayElement };
 
 function getRandom(min, max) {
   if (min >= 0 && max >= 0) {
@@ -45,3 +44,6 @@ function getRandLengthArray(nameArr) {
 }
 const getRandomArrayElement = (elements) =>
   elements[getRandom(0, elements.length - 1)];
+
+export { getRandom, getDot, getRandLengthArray, getRandomArrayElement };
+
