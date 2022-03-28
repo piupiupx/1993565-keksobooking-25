@@ -1,6 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-import { getSimilarApparts } from 'data.js';
-
 import {
   // eslint-disable-next-line no-unused-vars
   getRandom,
@@ -10,4 +7,10 @@ import {
   getRandLengthArray,
   // eslint-disable-next-line no-unused-vars
   getRandomArrayElement,
-} from './util.js';
+} from "./util.js";
+import "./template.js";
+import { getSimilarApparts } from "./data.js";
+
+const similarAppars = getSimilarApparts();
+//console.log(similarAppars);
+//renderBlaBla(similarApparts[0]);

@@ -1,4 +1,3 @@
-
 function getRandom(min, max) {
   if (min >= 0 && max >= 0) {
     if (min > max) {
@@ -10,7 +9,7 @@ function getRandom(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
   }
-  return 'Числа должны быть натуральными';
+  return "Числа должны быть натуральными";
 }
 
 function getDot(min, max) {
@@ -23,7 +22,7 @@ function getDot(min, max) {
     }
     return Math.random() * (max - min + 1) + min; //Максимум и минимум включаются
   }
-  return 'Числа должны быть натуральными';
+  return "Числа должны быть натуральными";
 }
 
 function getRandLengthArray(nameArr) {
@@ -45,4 +44,3 @@ function getRandLengthArray(nameArr) {
 const getRandomArrayElement = (elements) =>
   elements[getRandom(0, elements.length - 1)];
 export { getRandom, getDot, getRandLengthArray, getRandomArrayElement };
-
