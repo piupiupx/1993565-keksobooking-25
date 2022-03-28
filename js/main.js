@@ -7,10 +7,10 @@ import {
   getRandLengthArray,
   // eslint-disable-next-line no-unused-vars
   getRandomArrayElement,
-} from "./util.js";
-import "./template.js";
-import { getSimilarApparts } from "./data.js";
+} from './util.js';
+import './template.js';
+import { getSimilarApparts } from './data.js';
 
-const similarAppars = getSimilarApparts();
+getSimilarApparts();
 //console.log(similarAppars);
 //renderBlaBla(similarApparts[0]);

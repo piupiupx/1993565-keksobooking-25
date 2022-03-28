@@ -9,7 +9,7 @@ function getRandom(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
   }
-  return "Числа должны быть натуральными";
+  return 'Числа должны быть натуральными';
 }
 
 function getDot(min, max) {
@@ -22,7 +22,7 @@ function getDot(min, max) {
     }
     return Math.random() * (max - min + 1) + min; //Максимум и минимум включаются
   }
-  return "Числа должны быть натуральными";
+  return 'Числа должны быть натуральными';
 }
 
 function getRandLengthArray(nameArr) {
