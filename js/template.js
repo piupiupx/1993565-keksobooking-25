@@ -1,5 +1,6 @@
 import { createAppart } from './data.js';
 
+// eslint-disable-next-line prefer-const
 let appart = createAppart();
 const cardElement = document.querySelector('#card');
 
@@ -8,6 +9,7 @@ const clone = cardElement.content.cloneNode(true);
 createOfferTemplate(appart, clone);
 mapCanvas.appendChild(clone);
 
+// eslint-disable-next-line no-shadow
 function createOfferTemplate(appart, clone) {
   const popupTitle = clone.querySelector('.popup__title');
 
