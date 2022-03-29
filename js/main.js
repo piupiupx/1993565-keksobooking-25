@@ -10,7 +10,7 @@ import {
 } from './util.js';
 import './template.js';
 import { getSimilarApparts } from './data.js';
-
+import './hide.js';
 getSimilarApparts();
 //console.log(similarAppars);
 //renderBlaBla(similarApparts[0]);
