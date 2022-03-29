@@ -8,9 +8,15 @@ import {
   // eslint-disable-next-line no-unused-vars
   getRandomArrayElement,
 } from './util.js';
-import './template.js';
+import { createOfferTemplate } from './template.js';
 import { getSimilarApparts } from './data.js';
 
-getSimilarApparts();
-//console.log(similarAppars);
-//renderBlaBla(similarApparts[0]);
+const similarApparts = getSimilarApparts();
+
+const cardTemplate = document.querySelector('#card');
+
+const mapCanvas = document.querySelector('#map-canvas');
+// eslint-disable-next-line no-undef
+const clone = createOfferTemplate(similarApparts[0], cardTemplate);
+
+mapCanvas.appendChild(clone); // добавляем уже заполненную карточку нашими
