@@ -1,15 +1,4 @@
-import { createAppart } from './data.js';
-
-// eslint-disable-next-line prefer-const
-let appart = createAppart();
-const cardTemplate = document.querySelector('#card');
-
-const mapCanvas = document.querySelector('#map-canvas');
-// eslint-disable-next-line no-undef
-createOfferTemplate(appart, cardTemplate, mapCanvas); //
-
-// eslint-disable-next-line no-shadow
-function createOfferTemplate(appart, template, container) {
+function createOfferTemplate(appart, template) {
   const clone = template.content.cloneNode(true); //создаем копию карточки-шаблона
 
   const popupTitle = clone.querySelector('.popup__title');

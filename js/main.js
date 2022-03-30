@@ -17,6 +17,6 @@ const cardTemplate = document.querySelector('#card');
 
 const mapCanvas = document.querySelector('#map-canvas');
 // eslint-disable-next-line no-undef
-const clone = createOfferTemplate(similarApparts[0], cardTemplate);
+const clone = createOfferTemplate(similarApparts[0], cardTemplate); // создаем карточку из первго элемента массива
 
 mapCanvas.appendChild(clone); // добавляем уже заполненную карточку нашими
