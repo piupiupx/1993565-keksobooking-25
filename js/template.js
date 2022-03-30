@@ -54,6 +54,5 @@ function createOfferTemplate(appart, template) {
 
   const popupAvatar = clone.querySelector('.popup__avatar');
   popupAvatar.src = appart.author.avatar;
-  container.appendChild(clone); // добавляем уже заполненную карточку нашими
 }
 export { createOfferTemplate };
