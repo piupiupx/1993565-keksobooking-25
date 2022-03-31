@@ -4,7 +4,6 @@ import {
   getRandLengthArray,
   getRandomArrayElement,
 } from './util.js';
-
 const photo = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
@@ -40,13 +39,13 @@ const createAppart = () => {
     },
     offer: {
       title: 'Временное описание',
-      guests: getRandom(1, 10),
+      guests: getRandom(1, 2),
       address: `${location.lat}, ${location.lng}`,
-      prise: getRandom(1, 500),
+      prise: getRandom(1000, 300000),
       type: typeApp,
-      rooms: getRandom(1, 10),
+      rooms: getRandom(1, 3),
+
       // eslint-disable-next-line no-dupe-keys
-      guests: getRandom(1, 10),
       checkin: getRandomArrayElement(checkinout),
       checkout: getRandomArrayElement(checkinout),
       features: getRandLengthArray(feat),
@@ -57,4 +56,5 @@ const createAppart = () => {
 };
 
 // eslint-disable-next-line no-unused-vars
-const getSimilarApparts = () => Array.from({ length: 10 }, getSimilarApparts); // создает 10 объектов с рандомными значениями
+const getSimilarApparts = () => Array.from({ length: 10 }, createAppart); // создает 10 объектов с рандомными значениями
+export { createAppart, getSimilarApparts };
