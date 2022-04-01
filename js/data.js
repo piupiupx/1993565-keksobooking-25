@@ -41,7 +41,8 @@ const createAppart = () => {
       title: 'Временное описание',
       guests: getRandom(1, 2),
       address: `${location.lat}, ${location.lng}`,
-      prise: getRandom(1000, 300000),
+      price: getRandom(1000, 300000),
+
       type: typeApp,
       rooms: getRandom(1, 3),
 

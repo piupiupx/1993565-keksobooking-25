@@ -1,4 +1,5 @@
 function createOfferTemplate(appart, template) {
+  // функция  берет данные одного из элементов массива рандомных объявлений и вставляет в шаблон
   const clone = template.content.cloneNode(true); //создаем копию карточки-шаблона
 
   const popupTitle = clone.querySelector('.popup__title');
@@ -54,5 +55,6 @@ function createOfferTemplate(appart, template) {
 
   const popupAvatar = clone.querySelector('.popup__avatar');
   popupAvatar.src = appart.author.avatar;
+  return clone;
 }
 export { createOfferTemplate };
