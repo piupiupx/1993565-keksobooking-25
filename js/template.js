@@ -64,4 +64,5 @@ function createOfferTemplate(appart, clone) {
 
   const popupAvatar = clone.querySelector('.popup__avatar');
   popupAvatar.src = appart.author.avatar;
+  return clone;
 }
