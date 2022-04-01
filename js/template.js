@@ -1,16 +1,6 @@
-import { createAppart } from './data.js';
+function createOfferTemplate(appart, template) {
+  const clone = template.content.cloneNode(true); //создаем копию карточки-шаблона
 
-// eslint-disable-next-line prefer-const
-let appart = createAppart();
-const cardElement = document.querySelector('#card');
-
-const mapCanvas = document.querySelector('#map-canvas');
-const clone = cardElement.content.cloneNode(true);
-createOfferTemplate(appart, clone);
-mapCanvas.appendChild(clone);
-
-// eslint-disable-next-line no-shadow
-function createOfferTemplate(appart, clone) {
   const popupTitle = clone.querySelector('.popup__title');
 
   if (!appart.offer.title) {
@@ -22,11 +12,11 @@ function createOfferTemplate(appart, clone) {
   const popupAddress = clone.querySelector('.popup__text--address');
   popupAddress.innerText = appart.offer.address;
 
-  const popupPrise = clone.querySelector('.popup__text--price');
-  if (!appart.offer.prise) {
-    popupPrise.classList.add('.hidden');
+  const popupPrice = clone.querySelector('.popup__text--price');
+  if (!appart.offer.price) {
+    popupPrice.classList.add('.hidden');
   }
-  popupPrise.innerText = `${appart.offer.prise} ₽/ночь`;
+  popupPrice.innerText = `${appart.offer.price} ₽/ночь`;
 
   const mapTypes = {
     flat: 'Квартира',
@@ -66,3 +56,4 @@ function createOfferTemplate(appart, clone) {
   popupAvatar.src = appart.author.avatar;
   return clone;
 }
+export { createOfferTemplate };
