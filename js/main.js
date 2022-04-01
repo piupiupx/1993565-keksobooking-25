@@ -11,6 +11,6 @@ import {
 import './template.js';
 import { getSimilarApparts } from './data.js';
 import './hide.js';
+import { activElementList, disableElementList } from './hide.js';
+
 getSimilarApparts();
-//console.log(similarAppars);
-//renderBlaBla(similarApparts[0]);

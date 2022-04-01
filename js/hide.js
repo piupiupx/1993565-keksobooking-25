@@ -12,5 +12,4 @@ function activElementList() {
   mapFilters.classList.remove('map__filters--disabled');
 }
 
-disableElementList();
-activElementList();
+export { activElementList, disableElementList };
