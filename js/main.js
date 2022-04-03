@@ -10,7 +10,7 @@ import {
 } from './util.js';
 import { createOfferTemplate } from './template.js';
 import { getSimilarApparts } from './data.js';
-import './hide.js';
+import './form.js';
 import {
   // eslint-disable-next-line no-unused-vars
   activElementList,
