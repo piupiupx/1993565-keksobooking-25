@@ -30,6 +30,7 @@ const capacity = {
 };
 
 function getCapacityErrorMessage(value) {
+  // возвращает текст ошибки
   const rooms = Number(value);
   if (rooms === maxRooms) {
     return 'Выберите "не для гостей"';
@@ -38,38 +39,33 @@ function getCapacityErrorMessage(value) {
   return `не больше ${roomsField.value} гостя`;
 }
 function validateCapacity() {
-  return capacity[roomsField.value].includes(capacity[capacityField.value]);
+  const capacitys = Number(capacityField.value);
+  const rooms = Number(roomsField.value);
+  return (
+    (rooms >= capacitys && rooms < maxRooms && capacitys !== 0) ||
+    (rooms === maxRooms && capacitys === 0)
+  );
 }
 
 pristine.addValidator(
   roomsField,
   validateCapacity,
   getCapacityErrorMessage,
-  2,
+  1,
   true
 );
 pristine.addValidator(
   capacityField,
   validateCapacity,
   'Количество гостей должно соответствовать количеству комнат',
-  2,
+  1,
   true
 );
 
-const submitButton = adFormTitle.querySelector('.ad-form__submit');
-
-const blockSubmitButton = () => {
-  // блокирует отправку
-  submitButton.disabled = true;
-  submitButton.textContent = 'Заполните обязательные поля';
-};
-
 adFormTitle.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-
   const isValid = pristine.validate();
 
   if (!isValid) {
-    blockSubmitButton();
+    evt.preventDefault();
   }
 });
