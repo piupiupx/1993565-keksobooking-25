@@ -22,14 +22,8 @@ function validateNickname(value) {
 const roomsField = adFormTitle.querySelector('[name="rooms"]');
 const capacityField = adFormTitle.querySelector('[name="capacity"]');
 
-const capacity = {
-  1: 'для 1 гостя',
-  2: ['для 2 гостей', 'для 1 гостя'],
-  3: ['для 3 гостей', 'для 2 гостей', 'для 1 гостя'],
-  100: 'не для гостей',
-};
-
 function getCapacityErrorMessage(value) {
+  // возвращает текст ошибки
   const rooms = Number(value);
   if (rooms === maxRooms) {
     return 'Выберите "не для гостей"';
@@ -38,38 +32,66 @@ function getCapacityErrorMessage(value) {
   return `не больше ${roomsField.value} гостя`;
 }
 function validateCapacity() {
-  return capacity[roomsField.value].includes(capacity[capacityField.value]);
+  const capacity = Number(capacityField.value);
+  const rooms = Number(roomsField.value);
+  return (
+    (rooms >= capacity && rooms < maxRooms && capacity !== 0) ||
+    (rooms === maxRooms && capacity === 0)
+  );
 }
 
 pristine.addValidator(
   roomsField,
   validateCapacity,
   getCapacityErrorMessage,
-  2,
+  1,
   true
 );
 pristine.addValidator(
   capacityField,
   validateCapacity,
   'Количество гостей должно соответствовать количеству комнат',
-  2,
+  1,
   true
 );
 
-const submitButton = adFormTitle.querySelector('.ad-form__submit');
-
-const blockSubmitButton = () => {
-  // блокирует отправку
-  submitButton.disabled = true;
-  submitButton.textContent = 'Заполните обязательные поля';
-};
-
 adFormTitle.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-
   const isValid = pristine.validate();
 
   if (!isValid) {
-    blockSubmitButton();
+    evt.preventDefault();
   }
+});
+
+const typeField = adFormTitle.querySelector('[name="type"]');
+const priceField = adFormTitle.querySelector('#price');
+const minPrice = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
+
+const validatePrice = () =>
+  priceField.value ? !(priceField.value < minPrice[typeField.value]) : true;
+
+function getPriceErrorMessage() {
+  return `Минимальная цена за ночь ${minPrice[typeField.value]} `;
+}
+
+pristine.addValidator(typeField, validatePrice, getPriceErrorMessage, 1, true);
+typeField.addEventListener('change', () => {
+  priceField.min = minPrice[typeField.value];
+  priceField.placeholder = `От ${minPrice[typeField.value]} ₽/ночь`;
+});
+
+const timeInField = adFormTitle.querySelector('[name="timein"]');
+const timeOutField = adFormTitle.querySelector('[name="timeout"]');
+
+timeInField.addEventListener('change', () => {
+  timeOutField.value = timeInField.value;
+});
+timeOutField.addEventListener('change', () => {
+  timeInField.value = timeOutField.value;
 });
