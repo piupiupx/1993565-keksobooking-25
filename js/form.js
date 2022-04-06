@@ -62,3 +62,36 @@ adFormTitle.addEventListener('submit', (evt) => {
     evt.preventDefault();
   }
 });
+
+const typeField = adFormTitle.querySelector('[name="type"]');
+const priceField = adFormTitle.querySelector('#price');
+const minPrice = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
+
+const validatePrice = () =>
+  priceField.value ? !(priceField.value < minPrice[typeField.value]) : true;
+
+function getPriceErrorMessage() {
+  return `Минимальная цена за ночь ${minPrice[typeField.value]} `;
+}
+
+pristine.addValidator(typeField, validatePrice, getPriceErrorMessage, 1, true);
+typeField.addEventListener('change', () => {
+  priceField.min = minPrice[typeField.value];
+  priceField.placeholder = `От ${minPrice[typeField.value]} ₽/ночь`;
+});
+
+const timeInField = adFormTitle.querySelector('[name="timein"]');
+const timeOutField = adFormTitle.querySelector('[name="timeout"]');
+
+timeInField.addEventListener('change', () => {
+  timeOutField.value = timeInField.value;
+});
+timeOutField.addEventListener('change', () => {
+  timeInField.value = timeOutField.value;
+});
