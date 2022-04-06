@@ -48,7 +48,7 @@ function createOfferTemplate(appart, template) {
   popupPhotos.innerHTML = appart.offer.photos
     // eslint-disable-next-line arrow-body-style
     .map((photoSrc) => {
-      return `<img src='${photoSrc}'> `;
+      return `<img width="50px" height="50px" src='${photoSrc}'> `;
     })
     .join('');
 
