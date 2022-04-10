@@ -1,7 +1,7 @@
 import { createOfferTemplate } from './template.js';
 import { activElementList } from './hide.js';
 
-function createMap(clone, similarApparts, cardTemplate) {
+function createMap() {
   const map = L.map('map');
 
   map.on('load', () => {
@@ -33,7 +33,7 @@ function createMap(clone, similarApparts, cardTemplate) {
     iconAnchor: [26, 52],
   });
 
-  const advPinMarker = L.marker(
+  /*const advPinMarker = L.marker(
     {
       lat: 35.5966979448806,
       lng: 139.5669896621257,
@@ -41,8 +41,7 @@ function createMap(clone, similarApparts, cardTemplate) {
     {
       icon: advPinIcon,
     }
-  );
-  advPinMarker.addTo(map).bindPopup(clone);
+  ); */
   const mainPinMarker = L.marker(
     {
       lat: 35.679938,
@@ -61,17 +60,20 @@ function createMap(clone, similarApparts, cardTemplate) {
       evt.target.getLatLng().lng
     }`;
   });
-  similarApparts.forEach((elem) => {
-    const pinMarker = L.marker(
-      {
-        lat: elem.location.lat,
-        lng: elem.location.lng,
-      },
-      {
-        icon: advPinIcon,
-      }
-    );
-    pinMarker.addTo(map).bindPopup(createOfferTemplate(elem, cardTemplate));
-  });
+  function setMarkers(similarApparts, cardTemplate) {
+    similarApparts.forEach((elem) => {
+      const pinMarker = L.marker(
+        {
+          lat: elem.location.lat,
+          lng: elem.location.lng,
+        },
+        {
+          icon: advPinIcon,
+        }
+      );
+      pinMarker.addTo(map).bindPopup(createOfferTemplate(elem, cardTemplate));
+    });
+  }
+  return { setMarkers };
 }
 export { createMap };
