@@ -9,17 +9,20 @@ import {
   getRandomArrayElement,
 } from './util.js';
 //import { createOfferTemplate } from './template.js';
-//import { getSimilarApparts } from './data.js';
+import { getSimilarApparts } from './data.js';
 import './form.js';
 import './slider.js';
 
 import { createMap } from './map.js';
 
-//const similarApparts = getSimilarApparts();
+const similarApparts = getSimilarApparts();
 
-//const cardTemplate = document.querySelector('#card');
+const cardTemplate = document.querySelector('#card');
 
 //const mapCanvas = document.querySelector('#map-canvas');
 // eslint-disable-next-line no-undef
-createMap();
+const { setMarkers } = createMap();
+
+setMarkers(similarApparts, cardTemplate);
+
 //mapCanvas.appendChild(clone); // добавляем уже заполненную карточку нашими
