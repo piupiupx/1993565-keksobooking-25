@@ -1,5 +1,4 @@
 import { sendForm } from './api.js';
-import { disableElementList } from './hide.js';
 import { isEscapeKey } from './util.js';
 
 function createForm(map, mainPinMarker) {
@@ -127,7 +126,6 @@ function createForm(map, mainPinMarker) {
       lng: 139.759498,
     });
 
-    const targetForm = document.querySelector('#address');
     targetForm.value = '35.679938, 139.759498';
     map.closePopup();
   }

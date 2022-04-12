@@ -8,7 +8,7 @@ import {
   // eslint-disable-next-line no-unused-vars
   getRandomArrayElement,
 } from './util.js';
-import { createOffer } from './template.js'; // создает карточку объявления под шаблон
+//import { createOffer } from './template.js'; // создает карточку объявления под шаблон
 import { getSimilarApparts } from './data.js'; // отрисовывает шаблонные аппарты
 import { createForm } from './form.js';
 import './slider.js';
@@ -16,6 +16,7 @@ import './slider.js';
 import { createMap } from './map.js';
 
 import { createLoader } from './api.js';
+// eslint-disable-next-line no-console
 const loadAppart = createLoader(console.log, console.error);
 
 // eslint-disable-next-line no-unused-expressions

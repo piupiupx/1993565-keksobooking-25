@@ -37,7 +37,9 @@ function sendForm(formData, onSuccess, onError) {
       onSuccess(data);
     })
     .catch((err) => {
+      // eslint-disable-next-line no-console
       console.log(err, '2');
+      // eslint-disable-next-line no-console
       console.log(onError, '1');
 
       onError(err);
