@@ -43,4 +43,14 @@ function getRandLengthArray(nameArr) {
 }
 const getRandomArrayElement = (elements) =>
   elements[getRandom(0, elements.length - 1)];
-export { getRandom, getDot, getRandLengthArray, getRandomArrayElement };
+// eslint-disable-next-line arrow-body-style
+const isEscapeKey = (evt) => {
+  return evt.key === 'Escape';
+};
+export {
+  getRandom,
+  getDot,
+  getRandLengthArray,
+  getRandomArrayElement,
+  isEscapeKey,
+};

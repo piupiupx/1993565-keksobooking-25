@@ -1,4 +1,4 @@
-function createOfferTemplate(appart, template) {
+function createOffer(appart, template) {
   const clone = template.content.cloneNode(true); //создаем копию карточки-шаблона
 
   const popupTitle = clone.querySelector('.popup__title');
@@ -56,4 +56,4 @@ function createOfferTemplate(appart, template) {
   popupAvatar.src = appart.author.avatar;
   return clone;
 }
-export { createOfferTemplate };
+export { createOffer };

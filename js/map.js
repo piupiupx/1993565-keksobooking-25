@@ -1,4 +1,4 @@
-import { createOfferTemplate } from './template.js';
+import { createOffer } from './template.js';
 import { activElementList } from './hide.js';
 
 function createMap() {
@@ -33,15 +33,6 @@ function createMap() {
     iconAnchor: [26, 52],
   });
 
-  /*const advPinMarker = L.marker(
-    {
-      lat: 35.5966979448806,
-      lng: 139.5669896621257,
-    },
-    {
-      icon: advPinIcon,
-    }
-  ); */
   const mainPinMarker = L.marker(
     {
       lat: 35.679938,
@@ -52,6 +43,7 @@ function createMap() {
       icon: mainPinIcon,
     }
   );
+
   mainPinMarker.addTo(map);
   const targetForm = document.querySelector('#address');
 
@@ -71,9 +63,9 @@ function createMap() {
           icon: advPinIcon,
         }
       );
-      pinMarker.addTo(map).bindPopup(createOfferTemplate(elem, cardTemplate));
+      pinMarker.addTo(map).bindPopup(createOffer(elem, cardTemplate));
     });
   }
-  return { setMarkers };
+  return { setMarkers: setMarkers, map: map, mainPinMarker: mainPinMarker };
 }
 export { createMap };
