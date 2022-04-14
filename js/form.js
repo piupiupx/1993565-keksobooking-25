@@ -170,6 +170,7 @@ function createForm(resetMap) {
 
           const removeContainer = () => {
             containerErr.remove();
+            errorButton.addEventListener('click', removeContainer);
             document.removeEventListener('click', removeContainer);
           };
 
