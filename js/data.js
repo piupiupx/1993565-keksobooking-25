@@ -1,3 +1,4 @@
+// временные данные для отрисовки
 import {
   getRandom,
   getDot,

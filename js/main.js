@@ -8,21 +8,23 @@ import {
   // eslint-disable-next-line no-unused-vars
   getRandomArrayElement,
 } from './util.js';
-//import { createOfferTemplate } from './template.js';
-import { getSimilarApparts } from './data.js';
-import './form.js';
+//import { getSimilarApparts } from './data.js'; // отрисовывает шаблонные аппарты
+import { createForm } from './form.js';
 import './slider.js';
+import { createLoader } from './api.js';
 
 import { createMap } from './map.js';
 
-const similarApparts = getSimilarApparts();
+import './api.js';
 
 const cardTemplate = document.querySelector('#card');
 
-//const mapCanvas = document.querySelector('#map-canvas');
-// eslint-disable-next-line no-undef
-const { setMarkers } = createMap();
+const { setMarkers, resetMap } = createMap();
 
-setMarkers(similarApparts, cardTemplate);
+// eslint-disable-next-line no-unused-vars
+const loadAppart = createLoader((data) => {
+  //console.log(getSimilarApparts());
+  setMarkers(data.slice(0, 10), cardTemplate);
+});
 
-//mapCanvas.appendChild(clone); // добавляем уже заполненную карточку нашими
+createForm(resetMap);
