@@ -1,4 +1,5 @@
 function createLoader(onSuccess, onError) {
+  // здесь возвращается промис
   return fetch('https://25.javascript.pages.academy/keksobooking/data', {
     method: 'GET',
     credentials: 'same-origin',
@@ -18,8 +19,8 @@ function createLoader(onSuccess, onError) {
     });
 }
 
-function sendForm(formData, onSuccess, onError) {
-  return fetch('https://25.javascript.pages.academy/keksobooking', {
+function sendForm(url, formData, onSuccess, onError) {
+  return fetch(url, {
     method: 'POST',
     body: formData,
 
@@ -34,14 +35,9 @@ function sendForm(formData, onSuccess, onError) {
       throw new Error(`${response.status} ${response.statusText}`);
     })
     .then((data) => {
-      onSuccess(data);
+      onSuccess(data); //jnc.lf
     })
     .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.log(err, '2');
-      // eslint-disable-next-line no-console
-      console.log(onError, '1');
-
       onError(err);
     });
 }

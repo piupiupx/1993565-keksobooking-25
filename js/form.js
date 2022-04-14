@@ -1,9 +1,11 @@
 import { sendForm } from './api.js';
 import { isEscapeKey } from './util.js';
-
-function createForm(map, mainPinMarker) {
+// форма валидности
+function createForm(resetMap) {
   const adFormTitle = document.querySelector('.ad-form');
   const maxRooms = 100;
+  const sliderElement = document.querySelector('.ad-form__slider');
+
   // eslint-disable-next-line no-unused-vars
   const pristine = new Pristine(adFormTitle, {
     classTo: 'ad-form__element',
@@ -109,29 +111,12 @@ function createForm(map, mainPinMarker) {
   });
   const resetButton = adFormTitle.querySelector('.ad-form__reset');
 
-  function resetForm() {
-    const title = adFormTitle.querySelector('#title');
-    title.value = '';
-    const price = adFormTitle.querySelector('#price');
-    price.value = '';
-    const sliderElement = document.querySelector('.ad-form__slider');
-    sliderElement.noUiSlider.set(0);
-    roomsField.value = '';
-    capacityField.value = '';
-    typeField.value = '';
-    timeInField.value = '';
-    timeOutField.value = '';
-    mainPinMarker.setLatLng({
-      lat: 35.679938,
-      lng: 139.759498,
-    });
-
-    targetForm.value = '35.679938, 139.759498';
-    map.closePopup();
-  }
   resetButton.addEventListener('click', () => {
-    resetForm();
+    adFormTitle.reset();
+    sliderElement.noUiSlider.set(0);
+    resetMap();
   });
+
   adFormTitle.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -141,52 +126,63 @@ function createForm(map, mainPinMarker) {
 
       const formData = new FormData(evt.target);
       sendForm(
+        'https://25.javascript.pages.academy/keksobooking',
         formData,
         () => {
-          resetForm();
+          adFormTitle.reset();
+          sliderElement.noUiSlider.set(0);
+          resetMap();
+
           const body = document.body;
           const successTemplate = document.querySelector('#success');
           const clone = successTemplate.content.cloneNode(true); //создаем копию карточки-шаблона
           const container = document.createElement('div');
+
           container.append(clone);
           body.append(container);
 
-          document.addEventListener('click', () => {
+          const removeContainer = () => {
             container.remove();
-          });
+            document.removeEventListener('click', removeContainer);
+          };
 
-          document.addEventListener('keydown', (e) => {
-            // по эск удаляет окно
+          const removeContainerOnEsc = (e) => {
             if (isEscapeKey(e)) {
               container.remove();
+              document.removeEventListener('keydown', removeContainerOnEsc);
             }
-          });
+          };
+
+          document.addEventListener('click', removeContainer);
+          document.addEventListener('keydown', removeContainerOnEsc);
         },
 
         () => {
           const body = document.body;
           const errorTemplate = document.querySelector('#error');
-
           const clone = errorTemplate.content.cloneNode(true); //создаем копию карточки-шаблона
           const containerErr = document.createElement('div');
+
           containerErr.append(clone);
           body.append(containerErr);
+
           const errorButton = document.querySelector('.error__button');
 
-          errorButton.addEventListener('click', () => {
+          const removeContainer = () => {
             containerErr.remove();
-          });
+            document.removeEventListener('click', removeContainer);
+          };
 
-          document.addEventListener('click', () => {
-            containerErr.remove();
-          });
-
-          document.addEventListener('keydown', (e) => {
-            // по эск удаляет окно
+          const removeContainerOnEsc = (e) => {
             if (isEscapeKey(e)) {
               containerErr.remove();
+              document.removeEventListener('keydown', removeContainerOnEsc);
             }
-          });
+          };
+
+          errorButton.addEventListener('click', removeContainer);
+          document.addEventListener('click', removeContainer);
+          document.addEventListener('keydown', removeContainerOnEsc);
         }
       );
     }

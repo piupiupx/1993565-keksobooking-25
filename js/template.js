@@ -1,8 +1,8 @@
 function createOffer(appart, template) {
+  // функция создает карточку на основе шаблона и заполняет временными данными
   const clone = template.content.cloneNode(true); //создаем копию карточки-шаблона
 
   const popupTitle = clone.querySelector('.popup__title');
-
   if (!appart.offer.title) {
     popupTitle.classList.add('.hidden');
   }
@@ -36,7 +36,11 @@ function createOffer(appart, template) {
   popupTime.innerText = `Заезд после ${appart.offer.checkin}, выезд до ${appart.offer.checkout}`;
 
   const popupFeatures = clone.querySelector('.popup__features');
-  popupFeatures.innerText = appart.offer.features.join(', ');
+  if (!appart.offer.features) {
+    popupFeatures.classList.add('hidden');
+  } else {
+    popupFeatures.innerText = appart.offer.features.join(', ');
+  }
 
   const popupDescription = clone.querySelector('.popup__description');
   if (!appart.offer.description) {
@@ -45,12 +49,16 @@ function createOffer(appart, template) {
   popupDescription.innerText = appart.offer.description;
 
   const popupPhotos = clone.querySelector('.popup__photos');
-  popupPhotos.innerHTML = appart.offer.photos
-    // eslint-disable-next-line arrow-body-style
-    .map((photoSrc) => {
-      return `<img width="50px" height="50px" src='${photoSrc}'> `;
-    })
-    .join('');
+  if (!appart.offer.photos) {
+    popupPhotos.classList.add('.hidden');
+  } else {
+    popupPhotos.innerHTML = appart.offer.photos
+      // eslint-disable-next-line arrow-body-style
+      .map((photoSrc) => {
+        return `<img width="50px" height="50px" src='${photoSrc}'> `;
+      })
+      .join('');
+  }
 
   const popupAvatar = clone.querySelector('.popup__avatar');
   popupAvatar.src = appart.author.avatar;

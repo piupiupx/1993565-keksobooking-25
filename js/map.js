@@ -52,8 +52,16 @@ function createMap() {
       evt.target.getLatLng().lng
     }`;
   });
-  function setMarkers(similarApparts, cardTemplate) {
-    similarApparts.forEach((elem) => {
+  function resetMap() {
+    mainPinMarker.setLatLng({
+      lat: 35.679938,
+      lng: 139.759498,
+    });
+
+    map.closePopup();
+  }
+  function setMarkers(data, cardTemplate) {
+    return data.forEach((elem) => {
       const pinMarker = L.marker(
         {
           lat: elem.location.lat,
@@ -66,6 +74,10 @@ function createMap() {
       pinMarker.addTo(map).bindPopup(createOffer(elem, cardTemplate));
     });
   }
-  return { setMarkers: setMarkers, map: map, mainPinMarker: mainPinMarker };
+  return {
+    setMarkers: setMarkers,
+    resetMap,
+  };
 }
+
 export { createMap };
