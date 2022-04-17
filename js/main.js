@@ -4,6 +4,7 @@ import { createLoader } from './api.js';
 import { createMap } from './map.js';
 import { createFilters } from './filters.js';
 import './api.js';
+import './avatar.js';
 
 const { setMarkers, resetMap, removeMarkers } = createMap();
 const cardTemplate = document.querySelector('#card');
