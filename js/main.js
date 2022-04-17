@@ -7,9 +7,11 @@ import './api.js';
 import './avatar.js';
 
 const { setMarkers, resetMap, removeMarkers } = createMap();
+
 const cardTemplate = document.querySelector('#card');
 
 createLoader((data) => {
   createFilters(data, removeMarkers, resetMap, setMarkers, cardTemplate);
 });
+
 createForm(resetMap);

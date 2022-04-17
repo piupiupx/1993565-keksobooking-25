@@ -62,6 +62,10 @@ function createOffer(appart, template) {
 
   const popupAvatar = clone.querySelector('.popup__avatar');
   popupAvatar.src = appart.author.avatar;
-  return clone;
+
+  const spanContainer = document.createElement('span');
+  spanContainer.appendChild(clone);
+
+  return spanContainer;
 }
 export { createOffer };
