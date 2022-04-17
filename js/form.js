@@ -1,17 +1,6 @@
 import { sendForm } from './api.js';
 import { isEscapeKey } from './util.js';
 
-const filterAdvertise = (advertises) => {
-  const houseType = document.querySelector('[name="housing-type"]');
-  const housingPrice = document.querySelector('[name="housing-price"]');
-  const housingRooms = document.querySelector('[name="housing-rooms"]');
-  const housingGuests = document.querySelector('[name="housing-guests"]');
-  const features = document.querySelector('[name="features"]');
-  return advertises.filter(
-    (advertise) => advertise.houseType === houseType.value
-  );
-};
-
 // форма валидности
 function createForm(resetMap) {
   const adFormTitle = document.querySelector('.ad-form');
