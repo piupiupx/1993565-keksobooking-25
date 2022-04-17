@@ -120,6 +120,28 @@ function createForm(resetMap) {
 
   adFormTitle.addEventListener('submit', (evt) => {
     evt.preventDefault();
+    const body = document.body;
+    const successTemplate = document.querySelector('#success');
+    const clone = successTemplate.content.cloneNode(true); //создаем копию карточки-шаблона
+    const container = document.createElement('div');
+    const removeContainer = () => {
+      container.remove();
+      document.removeEventListener('click', removeContainer);
+    };
+
+    const removeContainerOnEsc = (e) => {
+      if (isEscapeKey(e)) {
+        container.remove();
+        document.removeEventListener('keydown', removeContainerOnEsc);
+      }
+    };
+    function closeModalOnEvent() {
+      container.append(clone);
+      body.append(container);
+
+      document.addEventListener('click', removeContainer);
+      document.addEventListener('keydown', removeContainerOnEsc);
+    }
 
     const isValid = pristine.validate();
     if (isValid) {
@@ -135,57 +157,26 @@ function createForm(resetMap) {
           adFormTitle.reset();
           sliderElement.noUiSlider.set(0);
           resetMap();
-
-          const body = document.body;
-          const successTemplate = document.querySelector('#success');
-          const clone = successTemplate.content.cloneNode(true); //создаем копию карточки-шаблона
-          const container = document.createElement('div');
-
-          container.append(clone);
-          body.append(container);
-
-          const removeContainer = () => {
-            container.remove();
-            document.removeEventListener('click', removeContainer);
-          };
-
-          const removeContainerOnEsc = (e) => {
-            if (isEscapeKey(e)) {
-              container.remove();
-              document.removeEventListener('keydown', removeContainerOnEsc);
-            }
-          };
-
-          document.addEventListener('click', removeContainer);
-          document.addEventListener('keydown', removeContainerOnEsc);
+          closeModalOnEvent();
         },
 
         () => {
-          const body = document.body;
           const errorTemplate = document.querySelector('#error');
-          const clone = errorTemplate.content.cloneNode(true); //создаем копию карточки-шаблона
-          const containerErr = document.createElement('div');
+          const cloneErr = errorTemplate.content.cloneNode(true); //создаем копию карточки-шаблона
 
-          containerErr.append(clone);
-          body.append(containerErr);
+          container.append(cloneErr);
+          body.append(container);
 
           const errorButton = document.querySelector('.error__button');
 
-          const removeContainer = () => {
-            containerErr.remove();
+          const removeContainerErr = () => {
+            container.remove();
             errorButton.addEventListener('click', removeContainer);
             document.removeEventListener('click', removeContainer);
           };
 
-          const removeContainerOnEsc = (e) => {
-            if (isEscapeKey(e)) {
-              containerErr.remove();
-              document.removeEventListener('keydown', removeContainerOnEsc);
-            }
-          };
-
-          errorButton.addEventListener('click', removeContainer);
-          document.addEventListener('click', removeContainer);
+          errorButton.addEventListener('click', removeContainerErr);
+          document.addEventListener('click', removeContainerErr);
           document.addEventListener('keydown', removeContainerOnEsc);
         }
       );
