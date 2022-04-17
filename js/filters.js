@@ -70,9 +70,13 @@ function createFilters(
     setMarkers(hi.slice(0, 9), cardTemplate);
     //console.log(data, 'fefe');
   }
+  const featuresInput = document.querySelector('.map__features');
 
-  houseType.addEventListener('input', debounce(createFilter, RERENDER_DELAY));
-  housingPrice.addEventListener(
+  featuresInput.addEventListener(
+    'input',
+    debounce(createFilter, RERENDER_DELAY)
+  );
+  /*housingPrice.addEventListener(
     'input',
     debounce(createFilter, RERENDER_DELAY)
   );
@@ -89,7 +93,7 @@ function createFilters(
   parking.addEventListener('input', debounce(createFilter, RERENDER_DELAY));
   washer.addEventListener('input', debounce(createFilter, RERENDER_DELAY));
   elevator.addEventListener('input', debounce(createFilter, RERENDER_DELAY));
-  conditioner.addEventListener('input', debounce(createFilter, RERENDER_DELAY));
+  conditioner.addEventListener('input', debounce(createFilter, RERENDER_DELAY)); */
 }
 
 export { createFilters, filterAdvertise, filterFeatures };
