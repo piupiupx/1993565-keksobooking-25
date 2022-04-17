@@ -17,8 +17,6 @@ function createLoader(onSuccess, onError) {
       onSuccess(data);
     })
     .catch((err) => {
-      console.log(err, 'х');
-
       onError(err);
     });
 }
