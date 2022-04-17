@@ -60,6 +60,8 @@ function createMap() {
 
     map.closePopup();
   }
+  const markersArr = [];
+
   function setMarkers(data, cardTemplate) {
     return data.forEach((elem) => {
       const pinMarker = L.marker(
@@ -71,12 +73,20 @@ function createMap() {
           icon: advPinIcon,
         }
       );
+      markersArr.push(pinMarker);
       pinMarker.addTo(map).bindPopup(createOffer(elem, cardTemplate));
     });
   }
+  function removeMarkers() {
+    markersArr.forEach((mark) => {
+      map.removeLayer(mark);
+    });
+  }
+
   return {
     setMarkers: setMarkers,
     resetMap,
+    removeMarkers,
   };
 }
 

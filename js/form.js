@@ -1,9 +1,21 @@
 import { sendForm } from './api.js';
 import { isEscapeKey } from './util.js';
+
+const filterAdvertise = (advertises) => {
+  const houseType = document.querySelector('[name="housing-type"]');
+  const housingPrice = document.querySelector('[name="housing-price"]');
+  const housingRooms = document.querySelector('[name="housing-rooms"]');
+  const housingGuests = document.querySelector('[name="housing-guests"]');
+  const features = document.querySelector('[name="features"]');
+  return advertises.filter(
+    (advertise) => advertise.houseType === houseType.value
+  );
+};
+
 // форма валидности
 function createForm(resetMap) {
   const adFormTitle = document.querySelector('.ad-form');
-  const maxRooms = 100;
+  const MAX_ROOMS = 100;
   const sliderElement = document.querySelector('.ad-form__slider');
 
   // eslint-disable-next-line no-unused-vars
@@ -33,7 +45,7 @@ function createForm(resetMap) {
   function getCapacityErrorMessage(value) {
     // возвращает текст ошибки
     const rooms = Number(value);
-    if (rooms === maxRooms) {
+    if (rooms === MAX_ROOMS) {
       return 'Выберите "не для гостей"';
     }
 
@@ -43,8 +55,8 @@ function createForm(resetMap) {
     const capacity = Number(capacityField.value);
     const rooms = Number(roomsField.value);
     return (
-      (rooms >= capacity && rooms < maxRooms && capacity !== 0) ||
-      (rooms === maxRooms && capacity === 0)
+      (rooms >= capacity && rooms < MAX_ROOMS && capacity !== 0) ||
+      (rooms === MAX_ROOMS && capacity === 0)
     );
   }
 
@@ -126,8 +138,10 @@ function createForm(resetMap) {
 
       const formData = new FormData(evt.target);
       sendForm(
+        // эта функция отправляет данные заполненной формы на сервер
+
         'https://25.javascript.pages.academy/keksobooking',
-        formData,
+        formData, //
         () => {
           adFormTitle.reset();
           sliderElement.noUiSlider.set(0);
@@ -189,4 +203,4 @@ function createForm(resetMap) {
     }
   });
 }
-export { createForm };
+export { createForm, filterAdvertise };

@@ -12,9 +12,13 @@ function createLoader(onSuccess, onError) {
       throw new Error(`${response.status} ${response.statusText}`);
     })
     .then((data) => {
+      //console.log(data, 'hhhhh');
+
       onSuccess(data);
     })
     .catch((err) => {
+      console.log(err, 'х');
+
       onError(err);
     });
 }
