@@ -1,5 +1,4 @@
-import { calculatePrice, debounce } from './util.js';
-
+import { cutAdvertises } from './util.js';
 const RERENDER_DELAY = 500;
 
 function filterFeatures(featuresData) {
@@ -12,7 +11,6 @@ function filterFeatures(featuresData) {
   const washer = document.querySelector('#filter-washer');
   const elevator = document.querySelector('#filter-elevator');
   const conditioner = document.querySelector('#filter-conditioner');
-  //console.log(wifi.value, wifi.checked, 'wifi');
   return (
     (featuresData.includes(wifi.value) ? wifi.checked : true) &&
     (featuresData.includes(dishwasher.value) ? dishwasher.checked : true) &&
@@ -28,7 +26,6 @@ const filterAdvertise = (advertises) => {
   const housingPrice = document.querySelector('[name="housing-price"]');
   const housingRooms = document.querySelector('[name="housing-rooms"]');
   const housingGuests = document.querySelector('[name="housing-guests"]');
-  //const featuresNode = document.querySelector('[name="features"]');
 
   // eslint-disable-next-line arrow-body-style
   return advertises.filter((advertise) => {
@@ -44,6 +41,29 @@ const filterAdvertise = (advertises) => {
   });
 };
 
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+function calculatePrice(value, price) {
+  if (value === 'low') {
+    return price < 10000;
+  }
+  if (value === 'middle') {
+    return price >= 10000 && price <= 50000;
+  }
+  if (value === 'high') {
+    return price > 50000;
+  }
+  if (value === 'any') {
+    return true;
+  }
+}
+
 function createFilters(
   data,
   removeMarkers,
@@ -51,24 +71,13 @@ function createFilters(
   setMarkers,
   cardTemplate
 ) {
-  const houseType = document.querySelector('[name="housing-type"]');
-  const housingPrice = document.querySelector('[name="housing-price"]');
-  const housingRooms = document.querySelector('[name="housing-rooms"]');
-  const housingGuests = document.querySelector('[name="housing-guests"]');
-  const wifi = document.querySelector('#filter-wifi');
-  const dishwasher = document.querySelector('#filter-dishwasher');
-  const parking = document.querySelector('#filter-parking');
-  const washer = document.querySelector('#filter-washer');
-  const elevator = document.querySelector('#filter-elevator');
-  const conditioner = document.querySelector('#filter-conditioner');
-  setMarkers(filterAdvertise(data).slice(0, 9), cardTemplate);
+  setMarkers(cutAdvertises(filterAdvertise(data)), cardTemplate);
 
   function createFilter() {
     removeMarkers();
     resetMap();
-    const hi = filterAdvertise(data); // нельзя импортировать функцию из main.js
-    setMarkers(hi.slice(0, 9), cardTemplate);
-    //console.log(data, 'fefe');
+
+    setMarkers(cutAdvertises(filterAdvertise(data)), cardTemplate);
   }
   const featuresInput = document.querySelector('.map__features');
 
@@ -76,24 +85,6 @@ function createFilters(
     'input',
     debounce(createFilter, RERENDER_DELAY)
   );
-  /*housingPrice.addEventListener(
-    'input',
-    debounce(createFilter, RERENDER_DELAY)
-  );
-  housingRooms.addEventListener(
-    'input',
-    debounce(createFilter, RERENDER_DELAY)
-  );
-  housingGuests.addEventListener(
-    'input',
-    debounce(createFilter, RERENDER_DELAY)
-  );
-  wifi.addEventListener('input', debounce(createFilter, RERENDER_DELAY));
-  dishwasher.addEventListener('input', debounce(createFilter, RERENDER_DELAY));
-  parking.addEventListener('input', debounce(createFilter, RERENDER_DELAY));
-  washer.addEventListener('input', debounce(createFilter, RERENDER_DELAY));
-  elevator.addEventListener('input', debounce(createFilter, RERENDER_DELAY));
-  conditioner.addEventListener('input', debounce(createFilter, RERENDER_DELAY)); */
 }
 
 export { createFilters, filterAdvertise, filterFeatures };

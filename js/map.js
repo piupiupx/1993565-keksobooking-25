@@ -3,6 +3,8 @@ import { activElementList } from './hide.js';
 
 function createMap() {
   const map = L.map('map');
+  const mainPinLat = 35.679938;
+  const mainPinLng = 139.759498;
 
   map.on('load', () => {
     activElementList();
@@ -10,8 +12,8 @@ function createMap() {
 
   map.setView(
     {
-      lat: 35.6674382,
-      lng: 139.1665285,
+      lat: mainPinLat,
+      lng: mainPinLng,
     },
     10
   );
@@ -35,8 +37,8 @@ function createMap() {
 
   const mainPinMarker = L.marker(
     {
-      lat: 35.679938,
-      lng: 139.759498,
+      lat: mainPinLat,
+      lng: mainPinLng,
     },
     {
       draggable: true,
@@ -54,8 +56,8 @@ function createMap() {
   });
   function resetMap() {
     mainPinMarker.setLatLng({
-      lat: 35.679938,
-      lng: 139.759498,
+      lat: mainPinLat,
+      lng: mainPinLng,
     });
 
     map.closePopup();
