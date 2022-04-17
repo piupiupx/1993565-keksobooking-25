@@ -8,23 +8,17 @@ import {
   // eslint-disable-next-line no-unused-vars
   getRandomArrayElement,
 } from './util.js';
-//import { getSimilarApparts } from './data.js'; // отрисовывает шаблонные аппарты
 import { createForm } from './form.js';
 import './slider.js';
 import { createLoader } from './api.js';
-
 import { createMap } from './map.js';
-
+import { createFilters } from './filters.js';
 import './api.js';
 
+const { setMarkers, resetMap, removeMarkers } = createMap();
 const cardTemplate = document.querySelector('#card');
 
-const { setMarkers, resetMap } = createMap();
-
-// eslint-disable-next-line no-unused-vars
-const loadAppart = createLoader((data) => {
-  //console.log(getSimilarApparts());
-  setMarkers(data.slice(0, 10), cardTemplate);
+createLoader((data) => {
+  createFilters(data, removeMarkers, resetMap, setMarkers, cardTemplate);
 });
-
 createForm(resetMap);

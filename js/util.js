@@ -47,10 +47,35 @@ const getRandomArrayElement = (elements) =>
 const isEscapeKey = (evt) => {
   return evt.key === 'Escape';
 };
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+function calculatePrice(value, price) {
+  if (value === 'low') {
+    return price < 10000;
+  }
+  if (value === 'middle') {
+    return price >= 10000 && price <= 50000;
+  }
+  if (value === 'high') {
+    return price > 50000;
+  }
+  if (value === 'any') {
+    return true;
+  }
+}
+
 export {
   getRandom,
   getDot,
   getRandLengthArray,
   getRandomArrayElement,
   isEscapeKey,
+  debounce,
+  calculatePrice,
 };
