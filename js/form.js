@@ -192,4 +192,4 @@ function createForm(resetMap) {
     }
   });
 }
-export { createForm, filterAdvertise };
+export { createForm };
