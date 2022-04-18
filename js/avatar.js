@@ -27,7 +27,7 @@ fileChooserAdvertise.addEventListener('change', () => {
   const matches = FILE_TYPES.some((it) => {
     return fileName.endsWith(it);
   });
-  if (matches) {
+if (matches) {
     previewAdvertise.insertAdjacentHTML(
       'afterbegin',
       '<img src="img/muffin-grey.svg" alt="Фото жилья" width="70" height="70" />'
