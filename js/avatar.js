@@ -5,11 +5,13 @@ const preview = document.querySelector('.ad-form-header__preview');
 const img = preview.getElementsByTagName('img');
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const file = fileChooserAvatar.files[0];
-const fileName = file.name.toLowerCase();
 
 fileChooserAvatar.addEventListener('change', () => {
+  const fileName = file.name.toLowerCase();
+
   // eslint-disable-next-line arrow-body-style
   const matches = FILE_TYPES.some((it) => {
+
     return fileName.endsWith(it);
   });
   if (matches) {
@@ -25,6 +27,8 @@ const previewAdvertise = document.querySelector('.ad-form__photo');
 fileChooserAdvertise.addEventListener('change', () => {
   // eslint-disable-next-line arrow-body-style
   const matches = FILE_TYPES.some((it) => {
+  const fileName = file.name.toLowerCase();
+
     return fileName.endsWith(it);
   });
   if (matches) {
