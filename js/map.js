@@ -1,10 +1,11 @@
 import { createOffer } from './template.js';
 import { activElementList } from './hide.js';
 
+const MAIN_PIN_LAT = 35.679938;
+const MAIN_PIN_LNG = 139.759498;
+
 function createMap() {
   const map = L.map('map');
-  const mainPinLat = 35.679938;
-  const mainPinLng = 139.759498;
 
   map.on('load', () => {
     activElementList();
@@ -12,8 +13,8 @@ function createMap() {
 
   map.setView(
     {
-      lat: mainPinLat,
-      lng: mainPinLng,
+      lat: MAIN_PIN_LAT,
+      lng: MAIN_PIN_LNG,
     },
     10
   );
@@ -37,8 +38,8 @@ function createMap() {
 
   const mainPinMarker = L.marker(
     {
-      lat: mainPinLat,
-      lng: mainPinLng,
+      lat: MAIN_PIN_LAT,
+      lng: MAIN_PIN_LNG,
     },
     {
       draggable: true,
@@ -50,18 +51,21 @@ function createMap() {
   const targetForm = document.querySelector('#address');
 
   mainPinMarker.on('moveend', (evt) => {
-    targetForm.value = `${evt.target.getLatLng().lat}, ${
-      evt.target.getLatLng().lng
-    }`;
+    targetForm.value = `${evt.target
+      .getLatLng()
+      .lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
   });
-  function resetMap() {
+  function resetMainPin() {
     mainPinMarker.setLatLng({
-      lat: mainPinLat,
-      lng: mainPinLng,
+      lat: MAIN_PIN_LAT,
+      lng: MAIN_PIN_LNG,
     });
+  }
 
+  function resetPopUps() {
     map.closePopup();
   }
+
   const markersArr = [];
 
   function setMarkers(data, cardTemplate) {
@@ -87,8 +91,9 @@ function createMap() {
 
   return {
     setMarkers: setMarkers,
-    resetMap,
+    resetMainPin,
     removeMarkers,
+    resetPopUps,
   };
 }
 

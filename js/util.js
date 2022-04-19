@@ -1,7 +1,7 @@
-// eslint-disable-next-line arrow-body-style
-const isEscapeKey = (evt) => {
-  return evt.key === 'Escape';
-};
+const MIN_VALUE = 10000;
+const MAX_VALUE = 50000;
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
 const debounce = (callback, timeoutDelay) => {
   let timeoutId;
   return (...rest) => {
@@ -12,13 +12,13 @@ const debounce = (callback, timeoutDelay) => {
 
 function calculatePrice(value, price) {
   if (value === 'low') {
-    return price < 10000;
+    return price < MIN_VALUE;
   }
   if (value === 'middle') {
-    return price >= 10000 && price <= 50000;
+    return price >= MIN_VALUE && price <= MAX_VALUE;
   }
   if (value === 'high') {
-    return price > 50000;
+    return price > MAX_VALUE;
   }
   if (value === 'any') {
     return true;

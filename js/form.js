@@ -1,13 +1,15 @@
 import { sendForm } from './api.js';
 import { isEscapeKey } from './util.js';
 
+const MAX_ROOMS = 100;
+
+const filterBar = document.querySelector('.map__filters');
+
 // форма валидности
-function createForm(resetMap) {
+function createForm(resetPopUps, resetMainPin) {
   const adFormTitle = document.querySelector('.ad-form');
-  const MAX_ROOMS = 100;
   const sliderElement = document.querySelector('.ad-form__slider');
 
-  // eslint-disable-next-line no-unused-vars
   const pristine = new Pristine(adFormTitle, {
     classTo: 'ad-form__element',
     errorTextParent: 'ad-form__element',
@@ -115,38 +117,16 @@ function createForm(resetMap) {
   resetButton.addEventListener('click', () => {
     adFormTitle.reset();
     sliderElement.noUiSlider.set(0);
-    resetMap();
+    resetPopUps();
+    resetMainPin();
+    filterBar.reset();
   });
 
   adFormTitle.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const body = document.body;
-    const successTemplate = document.querySelector('#success');
-    const clone = successTemplate.content.cloneNode(true); //создаем копию карточки-шаблона
-    const container = document.createElement('div');
-    const removeContainer = () => {
-      container.remove();
-      document.removeEventListener('click', removeContainer);
-    };
-
-    const removeContainerOnEsc = (e) => {
-      if (isEscapeKey(e)) {
-        container.remove();
-        document.removeEventListener('keydown', removeContainerOnEsc);
-      }
-    };
-    function closeModalOnEvent() {
-      container.append(clone);
-      body.append(container);
-
-      document.addEventListener('click', removeContainer);
-      document.addEventListener('keydown', removeContainerOnEsc);
-    }
 
     const isValid = pristine.validate();
     if (isValid) {
-      // eslint-disable-next-line no-unused-vars
-
       const formData = new FormData(evt.target);
       sendForm(
         // эта функция отправляет данные заполненной формы на сервер
@@ -155,28 +135,62 @@ function createForm(resetMap) {
         formData, //
         () => {
           adFormTitle.reset();
+          filterBar.reset();
           sliderElement.noUiSlider.set(0);
-          resetMap();
-          closeModalOnEvent();
+          resetPopUps();
+          resetMainPin();
+
+          const body = document.body;
+          const successTemplate = document.querySelector('#success');
+          const clone = successTemplate.content.cloneNode(true); //создаем копию карточки-шаблона
+          const container = document.createElement('div');
+
+          container.append(clone);
+          body.append(container);
+
+          const removeContainer = () => {
+            container.remove();
+            document.removeEventListener('click', removeContainer);
+          };
+
+          const removeContainerOnEsc = (e) => {
+            if (isEscapeKey(e)) {
+              container.remove();
+              document.removeEventListener('keydown', removeContainerOnEsc);
+            }
+          };
+
+          document.addEventListener('click', removeContainer);
+          document.addEventListener('keydown', removeContainerOnEsc);
         },
 
         () => {
+          const body = document.body;
           const errorTemplate = document.querySelector('#error');
-          const cloneErr = errorTemplate.content.cloneNode(true); //создаем копию карточки-шаблона
+          const clone = errorTemplate.content.cloneNode(true); //создаем копию карточки-шаблона
+          const containerErr = document.createElement('div');
 
-          container.append(cloneErr);
-          body.append(container);
+          containerErr.append(clone);
+          body.append(containerErr);
 
           const errorButton = document.querySelector('.error__button');
 
-          const removeContainerErr = () => {
-            container.remove();
+          const removeContainer = () => {
+            containerErr.remove();
+            filterBar.reset();
             errorButton.addEventListener('click', removeContainer);
             document.removeEventListener('click', removeContainer);
           };
 
-          errorButton.addEventListener('click', removeContainerErr);
-          document.addEventListener('click', removeContainerErr);
+          const removeContainerOnEsc = (e) => {
+            if (isEscapeKey(e)) {
+              containerErr.remove();
+              document.removeEventListener('keydown', removeContainerOnEsc);
+            }
+          };
+
+          errorButton.addEventListener('click', removeContainer);
+          document.addEventListener('click', removeContainer);
           document.addEventListener('keydown', removeContainerOnEsc);
         }
       );

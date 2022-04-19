@@ -1,3 +1,11 @@
+const mapTypes = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель',
+};
+
 function createOffer(appart, template) {
   // функция создает карточку на основе шаблона и заполняет временными данными
   const clone = template.content.cloneNode(true); //создаем копию карточки-шаблона
@@ -17,14 +25,6 @@ function createOffer(appart, template) {
     popupPrice.classList.add('.hidden');
   }
   popupPrice.innerText = `${appart.offer.price} ₽/ночь`;
-
-  const mapTypes = {
-    flat: 'Квартира',
-    bungalow: 'Бунгало',
-    house: 'Дом',
-    palace: 'Дворец',
-    hotel: 'Отель',
-  };
 
   const popupType = clone.querySelector('.popup__type');
   popupType.innerText = mapTypes[appart.offer.type];
@@ -52,12 +52,20 @@ function createOffer(appart, template) {
   if (!appart.offer.photos) {
     popupPhotos.classList.add('.hidden');
   } else {
-    popupPhotos.innerHTML = appart.offer.photos
-      // eslint-disable-next-line arrow-body-style
-      .map((photoSrc) => {
-        return `<img width="50px" height="50px" src='${photoSrc}'> `;
-      })
-      .join('');
+    /* popupPhotos.innerHTML = appart.offer.photos
+      .map((photoSrc) => `<img width="50px" height="50px" src='${photoSrc}'> `)
+      .join(''); */
+
+    appart.offer.photos.forEach((photoSrc) => {
+      const img = document.createElement('img');
+      img.classList.add('.popup__photo');
+      img.src = photoSrc;
+      img.style.width = '45px';
+      img.style.height = '40px';
+      img.alt = 'Фотография жилья';
+
+      popupPhotos.appendChild(img);
+    });
   }
 
   const popupAvatar = clone.querySelector('.popup__avatar');
