@@ -5,21 +5,15 @@ const filterFeatures = (featuresData) => {
   if (!featuresData) {
     return true;
   }
-  const wifi = document.querySelector('#filter-wifi');
-  const dishwasher = document.querySelector('#filter-dishwasher');
-  const parking = document.querySelector('#filter-parking');
-  const washer = document.querySelector('#filter-washer');
-  const elevator = document.querySelector('#filter-elevator');
-  const conditioner = document.querySelector('#filter-conditioner');
-  return (
-    (featuresData.includes(wifi.value) ? wifi.checked : true) &&
-    (featuresData.includes(dishwasher.value) ? dishwasher.checked : true) &&
-    (featuresData.includes(parking.value) ? parking.checked : true) &&
-    (featuresData.includes(washer.value) ? washer.checked : true) &&
-    (featuresData.includes(elevator.value) ? elevator.checked : true) &&
-    (featuresData.includes(conditioner.value) ? conditioner.checked : true)
-  );
+
+  const featureFilterElements = document.querySelectorAll('.map__checkbox');
+  const checkedFeatures = Array.from(featureFilterElements)
+    .filter((el) => el.checked)
+    .map((el) => el.value);
+
+  return checkedFeatures.every((feature) => featuresData.includes(feature));
 };
+
 const houseType = document.querySelector('[name="housing-type"]');
 const housingPrice = document.querySelector('[name="housing-price"]');
 const housingRooms = document.querySelector('[name="housing-rooms"]');

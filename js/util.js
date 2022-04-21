@@ -2,13 +2,6 @@ const MIN_VALUE = 10000;
 const MAX_VALUE = 50000;
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
-const debounce = (callback, timeoutDelay) => {
-  let timeoutId;
-  return (...rest) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
-  };
-};
 
 function calculatePrice(value, price) {
   if (value === 'low') {
@@ -27,4 +20,4 @@ function calculatePrice(value, price) {
 
 const cutAdvertises = (adv) => adv.slice(0, 10);
 
-export { isEscapeKey, debounce, calculatePrice, cutAdvertises };
+export { isEscapeKey, calculatePrice, cutAdvertises };

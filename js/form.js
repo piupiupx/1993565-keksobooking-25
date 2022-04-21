@@ -2,15 +2,52 @@ import { sendForm } from './api.js';
 import { isEscapeKey } from './util.js';
 
 const MAX_ROOMS = 100;
-
 const filterBar = document.querySelector('.map__filters');
+const adForm = document.querySelector('.ad-form');
 
-// форма валидности
-function createForm(resetPopUps, resetMainPin) {
-  const adFormTitle = document.querySelector('.ad-form');
-  const sliderElement = document.querySelector('.ad-form__slider');
+function validateNickname(value) {
+  return value.length >= 30 && value.length <= 100;
+}
 
-  const pristine = new Pristine(adFormTitle, {
+const roomsField = adForm.querySelector('[name="rooms"]');
+const capacityField = adForm.querySelector('[name="capacity"]');
+
+function getCapacityErrorMessage(value) {
+  const rooms = Number(value);
+  if (rooms === MAX_ROOMS) {
+    return 'Выберите "не для гостей"';
+  }
+
+  return `не больше ${roomsField.value} гостя`;
+}
+function validateCapacity() {
+  const capacity = Number(capacityField.value);
+  const rooms = Number(roomsField.value);
+  return (
+    (rooms >= capacity && rooms < MAX_ROOMS && capacity !== 0) ||
+    (rooms === MAX_ROOMS && capacity === 0)
+  );
+}
+
+const typeField = adForm.querySelector('[name="type"]');
+const priceField = adForm.querySelector('#price');
+const minPrice = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
+
+const validatePrice = () =>
+  priceField.value ? !(priceField.value < minPrice[typeField.value]) : true;
+
+function getPriceErrorMessage() {
+  return `Минимальная цена за ночь ${minPrice[typeField.value]} `;
+}
+
+const createPristine = () => {
+  const pristine = new Pristine(adForm, {
     classTo: 'ad-form__element',
     errorTextParent: 'ad-form__element',
     errorClass: 'ad-form--invalid',
@@ -18,39 +55,11 @@ function createForm(resetPopUps, resetMainPin) {
     errorTextTag: 'p',
     errorTextClass: 'ad-form__error-text',
   });
-
-  const targetForm = document.querySelector('#address');
-  targetForm.value = '35.679938, 139.759498';
   pristine.addValidator(
-    adFormTitle.querySelector('#title'),
+    adForm.querySelector('#title'),
     validateNickname,
     'От 30 до 100 символов'
   );
-  function validateNickname(value) {
-    return value.length >= 30 && value.length <= 100;
-  }
-
-  const roomsField = adFormTitle.querySelector('[name="rooms"]');
-  const capacityField = adFormTitle.querySelector('[name="capacity"]');
-
-  function getCapacityErrorMessage(value) {
-    // возвращает текст ошибки
-    const rooms = Number(value);
-    if (rooms === MAX_ROOMS) {
-      return 'Выберите "не для гостей"';
-    }
-
-    return `не больше ${roomsField.value} гостя`;
-  }
-  function validateCapacity() {
-    const capacity = Number(capacityField.value);
-    const rooms = Number(roomsField.value);
-    return (
-      (rooms >= capacity && rooms < MAX_ROOMS && capacity !== 0) ||
-      (rooms === MAX_ROOMS && capacity === 0)
-    );
-  }
-
   pristine.addValidator(
     roomsField,
     validateCapacity,
@@ -65,32 +74,6 @@ function createForm(resetPopUps, resetMainPin) {
     1,
     true
   );
-
-  adFormTitle.addEventListener('submit', (evt) => {
-    const isValid = pristine.validate();
-
-    if (!isValid) {
-      evt.preventDefault();
-    }
-  });
-
-  const typeField = adFormTitle.querySelector('[name="type"]');
-  const priceField = adFormTitle.querySelector('#price');
-  const minPrice = {
-    bungalow: 0,
-    flat: 1000,
-    hotel: 3000,
-    house: 5000,
-    palace: 10000,
-  };
-
-  const validatePrice = () =>
-    priceField.value ? !(priceField.value < minPrice[typeField.value]) : true;
-
-  function getPriceErrorMessage() {
-    return `Минимальная цена за ночь ${minPrice[typeField.value]} `;
-  }
-
   pristine.addValidator(
     typeField,
     validatePrice,
@@ -98,43 +81,27 @@ function createForm(resetPopUps, resetMainPin) {
     1,
     true
   );
-  typeField.addEventListener('change', () => {
-    priceField.min = minPrice[typeField.value];
-    priceField.placeholder = `От ${minPrice[typeField.value]} ₽/ночь`;
-  });
 
-  const timeInField = adFormTitle.querySelector('[name="timein"]');
-  const timeOutField = adFormTitle.querySelector('[name="timeout"]');
+  return pristine;
+};
 
-  timeInField.addEventListener('change', () => {
-    timeOutField.value = timeInField.value;
-  });
-  timeOutField.addEventListener('change', () => {
-    timeInField.value = timeOutField.value;
-  });
-  const resetButton = adFormTitle.querySelector('.ad-form__reset');
-
-  resetButton.addEventListener('click', () => {
-    adFormTitle.reset();
-    sliderElement.noUiSlider.set(0);
-    resetPopUps();
-    resetMainPin();
-    filterBar.reset();
-  });
-
-  adFormTitle.addEventListener('submit', (evt) => {
+const subscribeOnSubmit = (
+  resetPopUps,
+  resetMainPin,
+  sliderElement,
+  pristine
+) => {
+  adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     const isValid = pristine.validate();
     if (isValid) {
       const formData = new FormData(evt.target);
       sendForm(
-        // эта функция отправляет данные заполненной формы на сервер
-
         'https://25.javascript.pages.academy/keksobooking',
-        formData, //
+        formData,
         () => {
-          adFormTitle.reset();
+          adForm.reset();
           filterBar.reset();
           sliderElement.noUiSlider.set(0);
           resetPopUps();
@@ -196,5 +163,45 @@ function createForm(resetPopUps, resetMainPin) {
       );
     }
   });
+};
+function createForm(resetPopUps, resetMainPin) {
+  const sliderElement = document.querySelector('.ad-form__slider');
+  const pristine = createPristine();
+
+  const targetForm = document.querySelector('#address');
+  targetForm.value = '35.679938, 139.759498';
+
+  adForm.addEventListener('submit', (evt) => {
+    const isValid = pristine.validate();
+
+    if (!isValid) {
+      evt.preventDefault();
+    }
+  });
+
+  typeField.addEventListener('change', () => {
+    priceField.min = minPrice[typeField.value];
+    priceField.placeholder = `От ${minPrice[typeField.value]} ₽/ночь`;
+  });
+
+  const timeInField = adForm.querySelector('[name="timein"]');
+  const timeOutField = adForm.querySelector('[name="timeout"]');
+
+  timeInField.addEventListener('change', () => {
+    timeOutField.value = timeInField.value;
+  });
+  timeOutField.addEventListener('change', () => {
+    timeInField.value = timeOutField.value;
+  });
+  const resetButton = adForm.querySelector('.ad-form__reset');
+
+  resetButton.addEventListener('click', () => {
+    adForm.reset();
+    sliderElement.noUiSlider.set(0);
+    resetPopUps();
+    resetMainPin();
+    filterBar.reset();
+  });
+  subscribeOnSubmit(resetPopUps, resetMainPin, sliderElement, pristine);
 }
 export { createForm };

@@ -12,7 +12,7 @@ function createOffer(appart, template) {
 
   const popupTitle = clone.querySelector('.popup__title');
   if (!appart.offer.title) {
-    popupTitle.classList.add('.hidden');
+    popupTitle.classList.add('hidden');
   }
 
   popupTitle.innerText = appart.offer.title;
@@ -22,7 +22,7 @@ function createOffer(appart, template) {
 
   const popupPrice = clone.querySelector('.popup__text--price');
   if (!appart.offer.price) {
-    popupPrice.classList.add('.hidden');
+    popupPrice.classList.add('hidden');
   }
   popupPrice.innerText = `${appart.offer.price} ₽/ночь`;
 
@@ -39,26 +39,28 @@ function createOffer(appart, template) {
   if (!appart.offer.features) {
     popupFeatures.classList.add('hidden');
   } else {
-    popupFeatures.innerText = appart.offer.features.join(', ');
+    appart.offer.features.forEach((feature) => {
+      const futureElem = document.createElement('li');
+      futureElem.classList.add('popup__feature');
+      futureElem.classList.add(`popup__feature--${feature}`);
+
+      popupFeatures.appendChild(futureElem);
+    });
   }
 
   const popupDescription = clone.querySelector('.popup__description');
   if (!appart.offer.description) {
-    popupDescription.classList.add('.hidden');
+    popupDescription.classList.add('hidden');
   }
   popupDescription.innerText = appart.offer.description;
 
   const popupPhotos = clone.querySelector('.popup__photos');
   if (!appart.offer.photos) {
-    popupPhotos.classList.add('.hidden');
+    popupPhotos.classList.add('hidden');
   } else {
-    /* popupPhotos.innerHTML = appart.offer.photos
-      .map((photoSrc) => `<img width="50px" height="50px" src='${photoSrc}'> `)
-      .join(''); */
-
     appart.offer.photos.forEach((photoSrc) => {
       const img = document.createElement('img');
-      img.classList.add('.popup__photo');
+      img.classList.add('popup__photo');
       img.src = photoSrc;
       img.style.width = '45px';
       img.style.height = '40px';
