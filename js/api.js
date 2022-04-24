@@ -8,6 +8,7 @@ function createLoader(onSuccess, onError) {
       if (response.ok) {
         return response.json();
       }
+      // throw new Error('hehe');
 
       throw new Error(`${response.status} ${response.statusText}`);
     })

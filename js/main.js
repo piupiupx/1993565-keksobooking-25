@@ -14,7 +14,13 @@ disableElementList();
 
 createLoader((data) => {
   activElementList();
-  createFilters(data, removeMarkers, resetPopUps, setMarkers, cardTemplate);
-});
+  const resetFilters = createFilters(
+    data,
+    removeMarkers,
+    resetPopUps,
+    setMarkers,
+    cardTemplate
+  );
 
-createForm(resetPopUps, resetMainPin);
+  createForm(resetPopUps, resetMainPin, removeMarkers, resetFilters);
+});

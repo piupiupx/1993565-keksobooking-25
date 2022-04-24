@@ -46,34 +46,45 @@ const createFilters = (
   setMarkers,
   cardTemplate
 ) => {
+  const filterBar = document.querySelector('.map__filters');
+
   setMarkers(cutAdvertises(filterAdvertise(data)), cardTemplate);
 
-  function createFilter() {
+  function setFilteredMarkers() {
     removeMarkers();
     resetPopUps();
 
     setMarkers(cutAdvertises(filterAdvertise(data)), cardTemplate);
   }
 
+  const resetFilters = () => {
+    filterBar.reset();
+    setFilteredMarkers();
+  };
+
   const featuresInput = document.querySelector('.map__features');
 
   featuresInput.addEventListener(
     'input',
-    debounce(createFilter, RERENDER_DELAY)
+    debounce(setFilteredMarkers, RERENDER_DELAY)
   );
-  houseType.addEventListener('input', debounce(createFilter, RERENDER_DELAY));
+  houseType.addEventListener(
+    'input',
+    debounce(setFilteredMarkers, RERENDER_DELAY)
+  );
   housingPrice.addEventListener(
     'input',
-    debounce(createFilter, RERENDER_DELAY)
+    debounce(setFilteredMarkers, RERENDER_DELAY)
   );
   housingRooms.addEventListener(
     'input',
-    debounce(createFilter, RERENDER_DELAY)
+    debounce(setFilteredMarkers, RERENDER_DELAY)
   );
   housingGuests.addEventListener(
     'input',
-    debounce(createFilter, RERENDER_DELAY)
+    debounce(setFilteredMarkers, RERENDER_DELAY)
   );
+  return resetFilters;
 };
 
 export { createFilters, filterAdvertise, filterFeatures };

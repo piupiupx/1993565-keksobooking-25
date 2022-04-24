@@ -89,7 +89,8 @@ const subscribeOnSubmit = (
   resetPopUps,
   resetMainPin,
   sliderElement,
-  pristine
+  pristine,
+  resetFilters
 ) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -102,10 +103,9 @@ const subscribeOnSubmit = (
         formData,
         () => {
           adForm.reset();
-          filterBar.reset();
           sliderElement.noUiSlider.set(0);
-          resetPopUps();
           resetMainPin();
+          resetFilters();
 
           const body = document.body;
           const successTemplate = document.querySelector('#success');
@@ -164,7 +164,7 @@ const subscribeOnSubmit = (
     }
   });
 };
-function createForm(resetPopUps, resetMainPin) {
+function createForm(resetPopUps, resetMainPin, removeMarkers, resetFilters) {
   const sliderElement = document.querySelector('.ad-form__slider');
   const pristine = createPristine();
 
@@ -198,10 +198,16 @@ function createForm(resetPopUps, resetMainPin) {
   resetButton.addEventListener('click', () => {
     adForm.reset();
     sliderElement.noUiSlider.set(0);
-    resetPopUps();
     resetMainPin();
-    filterBar.reset();
+
+    resetFilters();
   });
-  subscribeOnSubmit(resetPopUps, resetMainPin, sliderElement, pristine);
+  subscribeOnSubmit(
+    resetPopUps,
+    resetMainPin,
+    sliderElement,
+    pristine,
+    resetFilters
+  );
 }
 export { createForm };
